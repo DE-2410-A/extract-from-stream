@@ -1,13 +1,13 @@
 # Import the necessary libraries
-from confluent_kafka import Consumer, KafkaException
+from confluent_kafka import Consumer, KafkaException, KafkaError
 import pandas as pd
 
 # Configure Kafka Consumer
-bootstrap_server = 'localhost:9092'
+bootstrap_server = "localhost:9092"
 consumer_conf = {
-    'bootstrap.servers': bootstrap_server,  # Replace with your Kafka bootstrap servers
-    'group.id': 'my_group',  # Replace with your consumer group id
-    'auto.offset.reset': 'earliest'
+    "bootstrap.servers": bootstrap_server,  # Replace with your Kafka bootstrap servers
+    "group.id": "my_group",  # Replace with your consumer group id
+    "auto.offset.reset": "earliest",
 }
 
 print("Kafka Consumer Configuration:", consumer_conf)
@@ -16,7 +16,7 @@ print("Kafka Consumer Configuration:", consumer_conf)
 consumer = Consumer(consumer_conf)
 
 # Subscribe to the topic
-topic = 'random_numbers'  # Replace with your Kafka topic
+topic = "random_numbers"  # Replace with your Kafka topic
 consumer.subscribe([topic])
 
 # Collect Data from Kafka Stream
@@ -38,7 +38,7 @@ try:
                 raise KafkaException(msg.error())
         else:
             # Message is valid
-            messages.append(msg.value().decode('utf-8'))
+            messages.append(msg.value().decode("utf-8"))
 finally:
     # Close the consumer to commit final offsets
     consumer.close()
@@ -46,7 +46,7 @@ finally:
 # Store the collected values into a pandas DataFrame.
 
 # Create a pandas DataFrame from the collected messages
-df = pd.DataFrame(messages, columns=['message'])
+df = pd.DataFrame(messages, columns=["message"])
 
 # Display the first few and last few rows of the DataFrame
 df
